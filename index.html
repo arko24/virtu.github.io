@@ -2,24 +2,49 @@
 <script src="js/three.min.js"></script>
 <script src="js/panolens.min.js"></script>
 
+<div id="progress">
+  <div id="bar"></div>
+</div>
 <div id="container"></div>
-<button id="controlButton" class="button">Control Toggle</button>
-<button id="modeButton" class="button">Mode Toggle</button>
-<button id="videoButton" class="button">Video Toggle</button>
+<button id="controlButton" class="button">Test Control</button>
+<button id="modeButton" class="button">Test Mode</button>
+<button id="videoButton" class="button">Test Play Video</button>
+<button id="btn1" class="button">Switch image</button>
+<button id="btn2" class="button">Switch video</button>
+<button id="btn3" class="button">Switch image2</button>
 
 <script>
-var panorama, viewer, container, infospot, controlButton, modeButton, videoButton;
+var panorama, panorama2, viewer, container, infospot, controlButton, modeButton, videoButton;
 
 var controlIndex = PANOLENS.CONTROLS.ORBIT;
 var modeIndex = 0;
 var videoPlaying = false;
+var bar = document.querySelector( '#bar' );
+
+function onProgressUpdate ( event ) {
+  var percentage = event.progress.loaded/ event.progress.total * 100;
+  bar.style.width = percentage + "%";
+  if (percentage >= 100){
+    bar.classList.add( 'hide' );
+    setTimeout(function(){
+      bar.style.width = 0;
+    }, 1000);
+  }
+}
 
 container = document.querySelector( '#container' );
 controlButton = document.querySelector( '#controlButton' );
 modeButton = document.querySelector( '#modeButton' );
 videoButton = document.querySelector( '#videoButton' );
+var button1 = document.querySelector( '#btn1' );
+var button2 = document.querySelector( '#btn2' );
+var button3 = document.querySelector( '#btn3' );
 
 panorama = new PANOLENS.ImagePanorama( 'https://arko24.github.io/virtu.github.io/media/building.jpg' );
+
+panorama2 = new PANOLENS.VideoPanorama( 'https://arko24.github.io/virtu.github.io/media/ClashofClans.mp4' );
+  
+panorama3 = new PANOLENS.ImagePanorama( 'https://arko24.github.io/virtu.github.io/media/building.jpg' );
 
 infospot = new PANOLENS.Infospot( 350, PANOLENS.DataImage.Info );
 infospot.position.set( 0, -2000, -5000 );
@@ -27,7 +52,7 @@ infospot.position.set( 0, -2000, -5000 );
 panorama.add( infospot );
 
 viewer = new PANOLENS.Viewer( { container: container } );
-viewer.add( panorama );
+viewer.add( panorama, panorama2, panorama3 );
 
 // Method to trigger control
 controlButton.addEventListener( 'click', function(){
@@ -66,4 +91,20 @@ videoButton.addEventListener( 'click', function(){
   viewer.toggleVideoPlay( videoPlaying ? false : true );
   
 } );
+
+// Maunal Set Panorama
+
+
+// Enter panorama when load completes
+function onButtonClick( targetPanorama ) {
+  bar.classList.remove( 'hide' );
+  viewer.setPanorama( targetPanorama );
+}
+
+button1.addEventListener( 'click', onButtonClick.bind( this, panorama ) );
+
+button2.addEventListener( 'click', onButtonClick.bind( this, panorama2 ) );
+
+button3.addEventListener( 'click', onButtonClick.bind( this, panorama3 ) );
+
 </script>
