@@ -5,35 +5,63 @@
 <div id="container"></div>
 
 <script>
-var panorama, panorama2, viewer, container, infospot;
+var panorama, viewer, container, infospot;
+
+var controlIndex = PANOLENS.CONTROLS.DEVICEORIENTATION;
+var modeIndex = 0;
+var videoPlaying = false;
 
 container = document.querySelector( '#container' );
+controlButton = document.querySelector( '#controlButton' );
+modeButton = document.querySelector( '#modeButton' );
+videoButton = document.querySelector( '#videoButton' );
 
-panorama = new PANOLENS.ImagePanorama( 'https://arko24.heliohost.us/building.jpg' );
-panorama2 = new PANOLENS.VideoPanorama( 'https://arko24.github.io/virtu.github.io/media/ClashofClans.mp4', { autoplay: true } );
+panorama = new PANOLENS.ImagePanorama( 'https://arko24.github.io/virtu.github.io/media/building.jpg' );
 
-infospot = new PANOLENS.Infospot( 500, PANOLENS.DataImage.Info );
-infospot.position.set( -100, -500, -7000 );
-infospot.addEventListener( 'click', function(){
-  viewer.setPanorama( panorama2 );
-} );
-
-infospot2 = new PANOLENS.Infospot( 500, PANOLENS.DataImage.Info );
-infospot2.position.set( -100, -500, -5000 );
-infospot2.addEventListener( 'click', function(){
-  viewer.setPanorama( panorama );
-} );
-  
+infospot = new PANOLENS.Infospot( 350, PANOLENS.DataImage.Info );
+infospot.position.set( 0, -2000, -5000 );
 
 panorama.add( infospot );
-panorama2.add( infospot2 );
 
 viewer = new PANOLENS.Viewer( { container: container, autoRotate: true, autoRotateSpeed: 1, autoRotateActivationDuration: 5000 } );
+viewer.add( panorama );
 
-viewer.add( panorama, panorama2 );
+// Method to trigger control
+controlButton.addEventListener( 'click', function(){
 
-viewer.addUpdateCallback(function(){
+  controlIndex = controlIndex >= 1 ? 0 : controlIndex + 1;
   
-});
+  switch ( controlIndex ) {
+      
+    case 0: viewer.enableControl( PANOLENS.CONTROLS.ORBIT ); break;
+    case 1: viewer.enableControl( PANOLENS.CONTROLS.DEVICEORIENTATION ); break;
+    default: break;
+      
+  }
+
+} );
+
+modeButton.addEventListener( 'click', function(){
+  
+  modeIndex = modeIndex >= 2 ? 0 : modeIndex + 1;
+  
+  switch ( modeIndex ) {
+      
+    case 0: viewer.disableEffect(); break;
+    case 1: viewer.enableEffect( PANOLENS.MODES.CARDBOARD ); break;
+    case 2: viewer.enableEffect( PANOLENS.MODES.STEREO ); break;
+    default: break;
+      
+  }
+
+} );
+
+// if it's video panorama
+videoButton.addEventListener( 'click', function(){
+  
+  videoPlaying = !videoPlaying;
+  viewer.toggleVideoPlay( videoPlaying ? false : true );
+  
+} );
 
 </script>
