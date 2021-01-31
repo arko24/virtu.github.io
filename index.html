@@ -2,9 +2,6 @@
 <script src="js/three.min.js"></script>
 <script src="js/panolens.min.js"></script>
 
-<div id="progress">
-  <div id="bar"></div>
-</div>
 <div id="container"></div>
 <button id="controlButton" class="button">Test Control</button>
 <button id="modeButton" class="button">Test Mode</button>
@@ -18,25 +15,13 @@ var panorama, panorama2, viewer, container, infospot, controlButton, modeButton,
 var controlIndex = PANOLENS.CONTROLS.DEVICEORIENTATION;
 var modeIndex = 0;
 var videoPlaying = false;
-var bar = document.querySelector( '#bar' );
-
-function onProgressUpdate ( event ) {
-  var percentage = event.progress.loaded/ event.progress.total * 100;
-  bar.style.width = percentage + "%";
-  if (percentage >= 100){
-    bar.classList.add( 'hide' );
-    setTimeout(function(){
-      bar.style.width = 0;
-    }, 1000);
-  }
-}
 
 container = document.querySelector( '#container' );
 controlButton = document.querySelector( '#controlButton' );
 modeButton = document.querySelector( '#modeButton' );
 videoButton = document.querySelector( '#videoButton' );
-var button1 = document.querySelector( '#btn1' );
-var button2 = document.querySelector( '#btn2' );
+button1 = document.querySelector( '#btn1' );
+button2 = document.querySelector( '#btn2' );
 
 panorama = new PANOLENS.ImagePanorama( 'https://arko24.github.io/virtu.github.io/media/building.jpg' );
 
