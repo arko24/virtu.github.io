@@ -2,87 +2,38 @@
 <script src="js/three.min.js"></script>
 <script src="js/panolens.min.js"></script>
 
-<div id="progress">
-  <div id="bar"></div>
-</div>
 <div id="container"></div>
-<button id="controlButton" class="button">Test Control</button>
-<button id="modeButton" class="button">Test Mode</button>
-<button id="videoButton" class="button">Test Play Video</button>
 
 <script>
-var panorama, viewer, container, infospot, controlButton, modeButton, videoButton;
-
-var controlIndex = PANOLENS.CONTROLS.DEVICEORIENTATION;
-var modeIndex = 0;
-var videoPlaying = false;
-var bar = document.querySelector( '#bar' );
-
-function onProgressUpdate ( event ) {
-  var percentage = event.progress.loaded/ event.progress.total * 100;
-  bar.style.width = percentage + "%";
-  if (percentage >= 100){
-    bar.classList.add( 'hide' );
-    setTimeout(function(){
-      bar.style.width = 0;
-    }, 1000);
-  }
-}
+var panorama, panorama2, viewer, container, infospot;
 
 container = document.querySelector( '#container' );
-controlButton = document.querySelector( '#controlButton' );
-modeButton = document.querySelector( '#modeButton' );
-videoButton = document.querySelector( '#videoButton' );
 
-// panorama = new PANOLENS.ImagePanorama( 'https://arko24.github.io/virtu.github.io/media/building.jpg' );
+panorama = new PANOLENS.ImagePanorama( 'https://arko24.github.io/virtu.github.io/media/building.jpg' );
+panorama2 = new PANOLENS.VideoPanorama( 'https://arko24.github.io/virtu.github.io/media/ClashofClans.mp4', { autoplay: true } );
 
-panorama = new PANOLENS.VideoPanorama( 'https://arko24.github.io/virtu.github.io/media/ClashofClans.mp4', { autoplay: true } );
+infospot = new PANOLENS.Infospot( 500, PANOLENS.DataImage.Info );
+infospot.position.set( -100, -500, -7000 );
+infospot.addEventListener( 'click', function(){
+  viewer.setPanorama( panorama2 );
+} );
 
-infospot = new PANOLENS.Infospot( 350, PANOLENS.DataImage.Info );
-infospot.position.set( 0, -2000, -5000 );
+infospot2 = new PANOLENS.Infospot( 500, PANOLENS.DataImage.Info );
+infospot2.position.set( -100, -500, -5000 );
+infospot2.addEventListener( 'click', function(){
+  viewer.setPanorama( panorama );
+} );
+
 
 panorama.add( infospot );
+panorama2.add( infospot2 );
 
-viewer = new PANOLENS.Viewer( { container: container } );
-viewer.add( panorama );
+viewer = new PANOLENS.Viewer( { container: container, autoRotate: true, autoRotateSpeed: 1, autoRotateActivationDuration: 5000 } );
 
-// Method to trigger control
-controlButton.addEventListener( 'click', function(){
+viewer.add( panorama, panorama2 );
 
-  controlIndex = controlIndex >= 1 ? 0 : controlIndex + 1;
+viewer.addUpdateCallback(function(){
   
-  switch ( controlIndex ) {
-      
-    case 0: viewer.enableControl( PANOLENS.CONTROLS.ORBIT ); break;
-    case 1: viewer.enableControl( PANOLENS.CONTROLS.DEVICEORIENTATION ); break;
-    default: break;
-      
-  }
-
-} );
-
-modeButton.addEventListener( 'click', function(){
-  
-  modeIndex = modeIndex >= 2 ? 0 : modeIndex + 1;
-  
-  switch ( modeIndex ) {
-      
-    case 0: viewer.disableEffect(); break;
-    case 1: viewer.enableEffect( PANOLENS.MODES.CARDBOARD ); break;
-    case 2: viewer.enableEffect( PANOLENS.MODES.STEREO ); break;
-    default: break;
-      
-  }
-
-} );
-
-// if it's video panorama
-videoButton.addEventListener( 'click', function(){
-  
-  videoPlaying = !videoPlaying;
-  viewer.toggleVideoPlay( videoPlaying ? false : true );
-  
-} );
-
+});
 
 </script>
