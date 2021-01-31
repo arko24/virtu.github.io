@@ -6,11 +6,9 @@
 <button id="controlButton" class="button">Test Control</button>
 <button id="modeButton" class="button">Test Mode</button>
 <button id="videoButton" class="button">Test Play Video</button>
-<button id="btn1" class="button">Switch image</button>
-<button id="btn2" class="button">Switch video</button>
 
 <script>
-var panorama, panorama2, viewer, container, infospot, controlButton, modeButton, videoButton;
+var panorama, viewer, container, infospot, controlButton, modeButton, videoButton;
 
 var controlIndex = PANOLENS.CONTROLS.DEVICEORIENTATION;
 var modeIndex = 0;
@@ -20,12 +18,9 @@ container = document.querySelector( '#container' );
 controlButton = document.querySelector( '#controlButton' );
 modeButton = document.querySelector( '#modeButton' );
 videoButton = document.querySelector( '#videoButton' );
-button1 = document.querySelector( '#btn1' );
-button2 = document.querySelector( '#btn2' );
 
 panorama = new PANOLENS.ImagePanorama( 'https://arko24.github.io/virtu.github.io/media/building.jpg' );
 
-panorama2 = new PANOLENS.VideoPanorama( 'https://arko24.github.io/virtu.github.io/media/ClashofClans.mp4' );
 
 infospot = new PANOLENS.Infospot( 350, PANOLENS.DataImage.Info );
 infospot.position.set( 0, -2000, -5000 );
@@ -33,7 +28,7 @@ infospot.position.set( 0, -2000, -5000 );
 panorama.add( infospot );
 
 viewer = new PANOLENS.Viewer( { container: container } );
-viewer.add( panorama, panorama2 );
+viewer.add( panorama, );
 
 // Method to trigger control
 controlButton.addEventListener( 'click', function(){
@@ -72,18 +67,5 @@ videoButton.addEventListener( 'click', function(){
   viewer.toggleVideoPlay( videoPlaying ? false : true );
   
 } );
-
-// Maunal Set Panorama
-
-
-// Enter panorama when load completes
-function onButtonClick( targetPanorama ) {
-  bar.classList.remove( 'hide' );
-  viewer.setPanorama( targetPanorama );
-}
-
-button1.addEventListener( 'click', onButtonClick.bind( this, panorama ) );
-
-button2.addEventListener( 'click', onButtonClick.bind( this, panorama2 ) );
 
 </script>
