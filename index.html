@@ -9,15 +9,13 @@
 <button id="controlButton" class="button">Test Control</button>
 <button id="modeButton" class="button">Test Mode</button>
 <button id="videoButton" class="button">Test Play Video</button>
-<button id="btn1" class="button">Switch image</button>
-<button id="btn2" class="button">Switch video</button>
 
 <script>
-var panorama, panorama2, viewer, container, infospot, controlButton, modeButton, videoButton;
+var panorama, viewer, container, infospot, controlButton, modeButton, videoButton;
 
 var controlIndex = PANOLENS.CONTROLS.DEVICEORIENTATION;
 var modeIndex = 0;
-var videoPlaying = false;
+var videoPlaying = true;
 var bar = document.querySelector( '#bar' );
 
 function onProgressUpdate ( event ) {
@@ -35,12 +33,10 @@ container = document.querySelector( '#container' );
 controlButton = document.querySelector( '#controlButton' );
 modeButton = document.querySelector( '#modeButton' );
 videoButton = document.querySelector( '#videoButton' );
-var button1 = document.querySelector( '#btn1' );
-var button2 = document.querySelector( '#btn2' );
 
-panorama = new PANOLENS.ImagePanorama( 'https://arko24.github.io/virtu.github.io/media/building.jpg' );
+// panorama = new PANOLENS.ImagePanorama( 'https://arko24.github.io/virtu.github.io/media/building.jpg' );
 
-panorama2 = new PANOLENS.VideoPanorama( 'https://arko24.github.io/virtu.github.io/media/ClashofClans.mp4' );
+panorama = new PANOLENS.VideoPanorama( 'https://arko24.github.io/virtu.github.io/media/ClashofClans.mp4', { autoplay: true } );
 
 infospot = new PANOLENS.Infospot( 350, PANOLENS.DataImage.Info );
 infospot.position.set( 0, -2000, -5000 );
@@ -48,7 +44,7 @@ infospot.position.set( 0, -2000, -5000 );
 panorama.add( infospot );
 
 viewer = new PANOLENS.Viewer( { container: container } );
-viewer.add( panorama, panorama2 );
+viewer.add( panorama );
 
 // Method to trigger control
 controlButton.addEventListener( 'click', function(){
@@ -84,22 +80,9 @@ modeButton.addEventListener( 'click', function(){
 videoButton.addEventListener( 'click', function(){
   
   videoPlaying = !videoPlaying;
-  viewer.toggleVideoPlay( videoPlaying ? false : true );
+  viewer.toggleVideoPlay( videoPlaying ? true : false );
   
 } );
-
-// Maunal Set Panorama
-
-
-// Enter panorama when load completes
-function onButtonClick( targetPanorama ) {
-  bar.classList.remove( 'hide' );
-  viewer.setPanorama( targetPanorama );
-}
-
-button1.addEventListener( 'click', onButtonClick.bind( this, panorama ) );
-
-button2.addEventListener( 'click', onButtonClick.bind( this, panorama2 ) );
 
 
 </script>
