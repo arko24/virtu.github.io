@@ -15,7 +15,7 @@ var panorama, viewer, container, infospot, controlButton, modeButton, videoButto
 
 var controlIndex = PANOLENS.CONTROLS.DEVICEORIENTATION;
 var modeIndex = 0;
-var videoPlaying = true;
+var videoPlaying = false;
 var bar = document.querySelector( '#bar' );
 
 function onProgressUpdate ( event ) {
@@ -80,7 +80,7 @@ modeButton.addEventListener( 'click', function(){
 videoButton.addEventListener( 'click', function(){
   
   videoPlaying = !videoPlaying;
-  viewer.toggleVideoPlay( videoPlaying ? true : false );
+  viewer.toggleVideoPlay( videoPlaying ? false : true );
   
 } );
 
