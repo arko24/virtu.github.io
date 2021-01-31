@@ -18,20 +18,15 @@ html, body {
   
   #controlButton {
     top: 5px;
+    display: none;
   }
   
   #modeButton {
     top: 4rem;
+    display: none;
   }
   
   #videoButton {
     top: 8rem;
-  }
-
-  #btn1 {
-    top: 12rem;
-  }
-
-  #btn2 {
-    top: 16rem;
+    display: none;
   }
