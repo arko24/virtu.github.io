@@ -11,12 +11,11 @@
 <button id="videoButton" class="button">Test Play Video</button>
 <button id="btn1" class="button">Switch image</button>
 <button id="btn2" class="button">Switch video</button>
-<button id="btn3" class="button">Switch image2</button>
 
 <script>
-var panorama, panorama2, panorama3, viewer, container, infospot, controlButton, modeButton, videoButton;
+var panorama, panorama2, viewer, container, infospot, controlButton, modeButton, videoButton;
 
-var controlIndex = PANOLENS.CONTROLS.ORBIT;
+var controlIndex = PANOLENS.CONTROLS.DEVICEORIENTATION;
 var modeIndex = 0;
 var videoPlaying = false;
 var bar = document.querySelector( '#bar' );
@@ -43,15 +42,13 @@ panorama = new PANOLENS.ImagePanorama( 'https://arko24.github.io/virtu.github.io
 
 panorama2 = new PANOLENS.VideoPanorama( 'https://arko24.github.io/virtu.github.io/media/ClashofClans.mp4' );
 
-panorama3 = new PANOLENS.ImagePanorama( 'https://arko24.github.io/virtu.github.io/media/tent.jpg' );
-
 infospot = new PANOLENS.Infospot( 350, PANOLENS.DataImage.Info );
 infospot.position.set( 0, -2000, -5000 );
 
 panorama.add( infospot );
 
 viewer = new PANOLENS.Viewer( { container: container } );
-viewer.add( panorama, panorama2, panorama3 );
+viewer.add( panorama, panorama2 );
 
 // Method to trigger control
 controlButton.addEventListener( 'click', function(){
@@ -103,7 +100,5 @@ function onButtonClick( targetPanorama ) {
 button1.addEventListener( 'click', onButtonClick.bind( this, panorama ) );
 
 button2.addEventListener( 'click', onButtonClick.bind( this, panorama2 ) );
-
-button3.addEventListener( 'click', onButtonClick.bind( this, panorama2 ) );
 
 </script>
